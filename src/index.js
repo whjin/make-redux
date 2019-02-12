@@ -9,16 +9,53 @@ const appState = {
     }
 };
 
+const newAppState = {
+    ...appState,
+    title: {
+        ...appState,
+        text: 'React.js'
+    }
+};
+const newAppState1 = {
+    ...newAppState,
+    title: {
+        ...newAppState.title,
+        color: 'blue'
+    }
+};
+
 function stateChanger(state, action) {
+    if(!state){
+        return {
+            title: {
+                text: 'React.js title',
+                color: 'red'
+            },
+            content: {
+                text: 'React.js content',
+                color: 'blue'
+            }
+        }
+    }
     switch (action.type) {
         case 'UPDATE_TITLE_TEXT':
-            state.title.text = action.text;
-            break;
+            return {
+                ...state,
+                title: {
+                    ...state.title,
+                    text: action.text
+                }
+            };
         case 'UPDATE_TITLE_COLOR':
-            state.title.color = action.color;
-            break;
+            return {
+                ...state,
+                title: {
+                    ...state.title,
+                    color: action.color
+                }
+            };
         default:
-            break
+            return state;
     }
 }
 
@@ -44,7 +81,7 @@ function createStore(state, stateChanger) {
     const subscribe = (listener) => listeners.push(listener);
     const getState = () => state;
     const dispatch = (action) => {
-        stateChanger(state, action);
+        state = stateChanger(state, action);
         listeners.forEach((listener) => listener())
     };
     return {getState, dispatch, subscribe}
