@@ -47,14 +47,13 @@ function createStore(state, stateChanger) {
         stateChanger(state, action);
         listeners.forEach((listener) => listener())
     };
-    return {getState, dispatch,subscribe}
+    return {getState, dispatch, subscribe}
 }
 
 
 const store = createStore(appState, stateChanger);
-store.subscribe(()=>renderApp(store.getState()));
+store.subscribe(() => renderApp(store.getState()));
 
 renderApp(store.getState());
 store.dispatch({type: 'UPDATE_TITLE_TEXT', text: 'React.js'});
-store.dispatch({type: 'UPDATE_TITLE_COLOR', color: 'red'});
-renderApp(store.getState());
+store.dispatch({type: 'UPDATE_TITLE_COLOR', color: 'purple'});
